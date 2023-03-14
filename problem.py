@@ -46,8 +46,30 @@ class SingleFoodSearchProblem:
     def print_maze(self):
         for line in self.maze:
             print(line)
-    def animate(self, actions):
+    def Tranlate_action(self, state, action):
+        i, j = state
+        if action == 'N':
+            return (i-1, j)
+        elif action == 'S':
+            return (i+1, j)
+        elif action == 'W':
+            return (i, j-1)
+        elif action == 'E':
+            return (i, j+1)
+        elif action == 'Stop':
+            return 
+        else:
+            raise ValueError(f'Unknown action {action}')
+
+    def animate(self, direction):
         current_state = self.start_state
+        
+        actions = []
+        now = self.get_start_state() 
+        for i in direction : 
+            next = self.Tranlate_action(now,i)
+            actions.append(next)
+            now= next 
         while actions:
             os.system('cls' if os.name == 'nt' else 'clear')
             for i in range(len(self.maze)):
@@ -64,9 +86,22 @@ class SingleFoodSearchProblem:
             input()
             next_state = actions.pop(0)
             current_state = next_state
-
-
-
-# pac_man = SingleFoodSearchProblem("pacman_single01.txt")
-# start = (pac_man.get_start_state(),"Stop") 
-# print(start)
+    # def animate(self, actions):
+    #     current_state = self.start_state
+    #     while actions:
+    #         os.system('cls' if os.name == 'nt' else 'clear')
+    #         for i in range(len(self.maze)):
+    #             line = ''
+    #             for j in range(len(self.maze[i])):
+    #                 if (i, j) == current_state:
+    #                     line += 'P'
+    #                 elif (i, j) == self.goal_state:
+    #                     line += '.'
+    #                 else:
+    #                     line += self.maze[i][j]
+    #             print(line)
+    #         print('Press Enter to continue...')
+    #         input()
+    #         next_state = actions.pop(0)
+    #         current_state = next_state
+    

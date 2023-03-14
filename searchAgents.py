@@ -60,12 +60,21 @@ class BFS(SearchStrategy):
 pac_man = SingleFoodSearchProblem("pacman_single01.txt")
 bfs  = BFS()
 
-print(bfs)
-destination = (pac_man.get_goal_state(),"Stop")
-start = ( pac_man.get_start_state(),"Stop")
-print(pac_man.get_start_state())
-expanded, path = bfs.search(pac_man, pac_man.get_start_state(), pac_man.get_goal_state())
-print(path)
-print(expanded)
-actions = [(3, 11), (3, 12), (3, 13), (4, 13), (5, 13), (5, 12), (6, 12), (7, 12), (7, 11), (7, 10), (8, 10), (8, 9), (8, 8), (8, 7), (8, 6), (8, 5), (8, 4), (8, 3), (8, 2), (8, 1)]
-pac_man.animate(actions)
+# print(bfs)
+# destination = (pac_man.get_goal_state(),"Stop")
+# start = ( pac_man.get_start_state(),"Stop")
+# print(pac_man.get_start_state())
+# expanded, path = bfs.search(pac_man, pac_man.get_start_state(), pac_man.get_goal_state())
+# print(path)
+# print(expanded)
+direciton, path = bfs.search(pac_man, pac_man.get_start_state(), pac_man.get_goal_state())
+actions = []
+now = pac_man.get_start_state() 
+for i in direciton : 
+    next = pac_man.Tranlate_action(now,i)
+    actions.append(next)
+    now= next 
+    
+    
+print(actions)
+pac_man.animate(direciton)
