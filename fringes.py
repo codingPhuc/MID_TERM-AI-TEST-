@@ -15,16 +15,18 @@ class Stack:
 
 class Queue:
     def __init__(self):
-        self.items = []
+        self.items = list()
         
-    def push(self, item):
+    def enqueue(self, item):
         self.items.append(item)
         
-    def pop(self):
+    def dequeue(self):
         return self.items.pop(0)
         
     def is_empty(self):
         return len(self.items) == 0
+    def contain(self, u) : 
+        return u in self.items 
     
 class PriorityQueue:
     def __init__(self):

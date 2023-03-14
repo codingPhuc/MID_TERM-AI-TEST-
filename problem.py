@@ -1,5 +1,6 @@
 import sys
-
+import time
+import os
 class SingleFoodSearchProblem:
     def __init__(self, maze_file):
         self.maze = self.read_maze(maze_file)
@@ -27,13 +28,13 @@ class SingleFoodSearchProblem:
         successors = []
         x, y = state
         if x > 0 and self.maze[x-1][y] != '%':
-            successors.append(((x-1, y), 'North', 1))
+            successors.append(((x-1, y),'N', 1))
         if x < len(self.maze) - 1 and self.maze[x+1][y] != '%':
-            successors.append(((x+1, y), 'South', 1))
+            successors.append(((x+1, y),'S', 1))
         if y > 0 and self.maze[x][y-1] != '%':
-            successors.append(((x, y-1), 'West', 1))
+            successors.append(((x, y-1),'W', 1))
         if y < len(self.maze[0]) - 1 and self.maze[x][y+1] != '%':
-            successors.append(((x, y+1), 'East', 1))
+            successors.append(((x, y+1),'E', 1))   
         return successors
     
     def is_goal_state(self, state):# check if it is the goal state 
@@ -45,7 +46,27 @@ class SingleFoodSearchProblem:
     def print_maze(self):
         for line in self.maze:
             print(line)
+    def animate(self, actions):
+        current_state = self.start_state
+        while actions:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            for i in range(len(self.maze)):
+                line = ''
+                for j in range(len(self.maze[i])):
+                    if (i, j) == current_state:
+                        line += 'P'
+                    elif (i, j) == self.goal_state:
+                        line += '.'
+                    else:
+                        line += self.maze[i][j]
+                print(line)
+            print('Press Enter to continue...')
+            input()
+            next_state = actions.pop(0)
+            current_state = next_state
 
-Pacman_Maze = SingleFoodSearchProblem("pacman_single01.txt")
-print(Pacman_Maze.get_start_state())
-print(Pacman_Maze.get_successors(Pacman_Maze.get_start_state()))
+
+
+# pac_man = SingleFoodSearchProblem("pacman_single01.txt")
+# start = (pac_man.get_start_state(),"Stop") 
+# print(start)
