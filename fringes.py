@@ -12,6 +12,8 @@ class Stack:
         
     def is_empty(self):
         return len(self.items) == 0
+    def contain(self, u) : 
+        return u in self.items 
 
 class Queue:
     def __init__(self):

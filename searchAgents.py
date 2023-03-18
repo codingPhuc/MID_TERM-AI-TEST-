@@ -1,5 +1,5 @@
 from problem import SingleFoodSearchProblem 
-from fringes import Queue 
+from fringes import *
 class SearchStrategy:
     def search(self, g: SingleFoodSearchProblem, src: tuple, dst: tuple) -> tuple:
         expanded = [] # list of expanded vertices in the traversal order
@@ -35,7 +35,7 @@ class BFS(SearchStrategy):
         if src == dst : 
             expanded = []
             path = [src]
-            return expanded , path 
+            return self.get_directions(path)
         q= Queue()
         q.enqueue(src)
         expanded =[]
@@ -46,7 +46,7 @@ class BFS(SearchStrategy):
             cur = q.dequeue()
             expanded.append(cur)
             successors = g.get_successors(cur) 
-            for(v,d ,w) in  successors : 
+            for(v,w) in  successors : 
                 if v not in expanded and not q.contain(v):
                     if v == dst : 
                         parents[v] = cur 
@@ -54,27 +54,46 @@ class BFS(SearchStrategy):
                         direction =  self.get_directions(path)
                         return direction ,path
                     parents[v] = cur 
-                    q.enqueue(v)         
-            
+                    q.enqueue(v)                
+class DFS(SearchStrategy):
+    def search(self, g: SingleFoodSearchProblem, src: tuple , dst: tuple) -> tuple:
+        expanded = [] # list of expanded vertices in the traversal order
+        path = [] # path from src to dst
+        if src == dst : 
+            expanded = []
+            path = [src]
+            return self.get_directions(path)
+        q= Stack()
+        q.push(src)
+        expanded =[]
+        parents = dict()
+        parents[src] = -1 
+        
+        while not q.is_empty() : 
+            cur = q.pop()
+            expanded.append(cur)
+            successors = g.get_successors(cur) 
+            for(v,w) in  successors : 
+                if v not in expanded and not q.contain(v):
+                    if v == dst : 
+                        parents[v] = cur 
+                        path = self.get_path(src ,dst,parents)
+                        direction =  self.get_directions(path)
+                        return direction ,path
+                    parents[v] = cur 
+                    q.push(v)           
 
-pac_man = SingleFoodSearchProblem("pacman_single01.txt")
-bfs  = BFS()
+pac_man = SingleFoodSearchProblem("pacman_single03.txt")
 
-# print(bfs)
-# destination = (pac_man.get_goal_state(),"Stop")
-# start = ( pac_man.get_start_state(),"Stop")
-# print(pac_man.get_start_state())
-# expanded, path = bfs.search(pac_man, pac_man.get_start_state(), pac_man.get_goal_state())
-# print(path)
-# print(expanded)
-direciton, path = bfs.search(pac_man, pac_man.get_start_state(), pac_man.get_goal_state())
-actions = []
-now = pac_man.get_start_state() 
-for i in direciton : 
-    next = pac_man.Tranlate_action(now,i)
-    actions.append(next)
-    now= next 
-    
-    
-print(actions)
-pac_man.animate(direciton)
+bfs = BFS()
+dfs = DFS()
+# ucs = UCS()
+
+
+# for stg in [bfs, dfs]:
+#   print(stg)
+#   direction, path = stg.search(pac_man, pac_man.get_start_state(), pac_man.get_goal_state())
+#   print(path)
+#   print(direction)
+direction, path = dfs.search(pac_man, pac_man.get_start_state(), pac_man.get_goal_state())
+pac_man.animate(direction)

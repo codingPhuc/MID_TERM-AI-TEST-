@@ -28,13 +28,13 @@ class SingleFoodSearchProblem:
         successors = []
         x, y = state
         if x > 0 and self.maze[x-1][y] != '%':
-            successors.append(((x-1, y),'N', 1))
+            successors.append(((x-1, y), 1))
         if x < len(self.maze) - 1 and self.maze[x+1][y] != '%':
-            successors.append(((x+1, y),'S', 1))
+            successors.append(((x+1, y), 1))
         if y > 0 and self.maze[x][y-1] != '%':
-            successors.append(((x, y-1),'W', 1))
+            successors.append(((x, y-1), 1))
         if y < len(self.maze[0]) - 1 and self.maze[x][y+1] != '%':
-            successors.append(((x, y+1),'E', 1))   
+            successors.append(((x, y+1), 1))   
         return successors
     
     def is_goal_state(self, state):# check if it is the goal state 
